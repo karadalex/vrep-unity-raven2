@@ -1,0 +1,5 @@
+<launch>
+    <param name="robot_description" textfile="$(find raven_2_params)/data/ravenII_both_arm.urdf"/>
+	<param name="robot/name" value="Raven2" />
+    <rosparam file="$(find raven_2_params)/params/r2params.yaml" command="load" />
+</launch>

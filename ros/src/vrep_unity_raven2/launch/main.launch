@@ -1,3 +1,10 @@
 <launch>
-    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+    <arg name="port" default="9090" />
+
+	<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+		<arg name="port" value="9090" />
+	</include>
+	<include file="$(find raven_2_params)/launch/raven2.launch" />
+
+	<node name="file_server" pkg="file_server" type="file_server" output="screen" />
 </launch>

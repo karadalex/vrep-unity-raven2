@@ -5,10 +5,8 @@ Raven 2 Robot with V-REP and Unity3D
     <img src="./screenshot.png">
 </p>
 
+
 ## Requirements
-
-
-## Instructions
 
 ### For Users
 
@@ -17,10 +15,19 @@ Raven 2 Robot with V-REP and Unity3D
 
 ### For Contributors
 
-The following instructions are for building and running the project from scratch.
 - V-REP
 - Unity: To build the visualization you must have Unity3D installed (Currently Windows and Mac are officially supported. For use in Linux install the experimentation software as described in [here](./docs/unity-linux-install.md))
 - Docker (To easily run ROS)
+
+
+## Instructions
+
+### For Users
+
+
+### For Contributors
+
+The following instructions are for building and running the project from scratch.
 
 
 ## Why V-REP
@@ -40,3 +47,9 @@ Unity3D is chosen for the visualization of the robotic simulations (instead of V
 - More flexibility in terms of physics engines. This is especially useful for medical simulations where it is 
   important to visualize and manipulate non-rigid objects. (TODO: Integration with SOFA framework)
 - Support for VR & AR: This is very important for the field of surgery robotics!
+
+
+## References
+
+- ROS# [https://github.com/siemens/ros-sharp](https://github.com/siemens/ros-sharp)
+- Raven2 [https://github.com/rll/raven_2](https://github.com/rll/raven_2)

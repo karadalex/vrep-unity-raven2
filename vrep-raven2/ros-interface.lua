@@ -12,6 +12,7 @@ function sysCall_init()
     -- The child script initialization
     objectHandle = sim.getObjectAssociatedWithScript(sim.handle_self)
     objectName = sim.getObjectName(objectHandle)
+    leftArmHandles = sim.unpackTable(sim.getStringSignal("leftArmHandles"))
 
     -- Check if the required RosInterface is there:
     moduleName = 0
@@ -25,17 +26,35 @@ function sysCall_init()
         index = index + 1
     end
 
+    sequenceId = 0
     -- Prepare the float32 publisher and subscriber (we subscribe to the topic we advertise):
     if rosInterfacePresent then
-        publisher = simROS.advertise('/joint_states/shoulder_L','std_msgs/Float32')
+        publisher = simROS.advertise('/joint_states/shoulder_L','sensor_msgs/JointState')
     end
 end
 
+function getJointState()
+    sequenceId = sequenceId + 1
+    return {
+        header = {
+            seq = sequenceId,
+            stamp = sim.getSystemTime(),
+            frame_id = 'world'
+        },
+        name = {"elbow_L"},
+        position = {sim.getJointPosition(leftArmHandles[1])},
+        -- sim.jointfloatparam_velocity (2012): float parameter (can only be read) : joint velocity. This is a calculated value.
+        velocity = {sim.getObjectFloatParameter(leftArmHandles[1], 2012)},
+        effort = {sim.getJointForce(leftArmHandles[1])}
+        
+    }
+    
+end
+
 function sysCall_actuation()
-    leftArmHandles = sim.unpackTable(sim.getStringSignal("leftArmHandles"))
-    elbow_L = sim.getJointPosition(leftArmHandles[1])
+    print(getJointState())
     if rosInterfacePresent then
-        simROS.publish(publisher, {data = elbow_L})
+        simROS.publish(publisher, getJointState())
         -- To send several transforms at once, use simROS.sendTransforms instead
     end
 end

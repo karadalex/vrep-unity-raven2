@@ -12,7 +12,10 @@ function sysCall_init()
     -- The child script initialization
     objectHandle = sim.getObjectAssociatedWithScript(sim.handle_self)
     objectName = sim.getObjectName(objectHandle)
-    leftArmHandles = sim.unpackTable(sim.getStringSignal("leftArmHandles"))
+    print(sim.getStringSignal("jointNames"))
+    jointNames = sim.unpackTable(sim.getStringSignal("jointNames"))
+    leftArmHandlesTable = sim.unpackTable(sim.getStringSignal("leftArmHandlesTable"))
+    rightArmHandlesTable = sim.unpackTable(sim.getStringSignal("rightArmHandlesTable"))
 
     -- Check if the required RosInterface is there:
     moduleName = 0
@@ -29,32 +32,66 @@ function sysCall_init()
     sequenceId = 0
     -- Prepare the float32 publisher and subscriber (we subscribe to the topic we advertise):
     if rosInterfacePresent then
-        publisher = simROS.advertise('/joint_states/shoulder_L','sensor_msgs/JointState')
+        jointStatesPublisher = simROS.advertise('/joint_states','sensor_msgs/JointState')
     end
 end
 
-function getJointState()
+function headerMsg(frameId)
     sequenceId = sequenceId + 1
     return {
-        header = {
-            seq = sequenceId,
-            stamp = sim.getSystemTime(),
-            frame_id = 'world'
-        },
-        name = {"elbow_L"},
-        position = {sim.getJointPosition(leftArmHandles[1])},
+        seq = sequenceId,
+        stamp = sim.getSystemTime(),
+        frame_id = frameId
+    }
+end
+
+function jointStatesMsg()
+    local i = 1
+    names = {}
+    positions = {}
+    velocities = {}
+    efforts = {}
+    for k, jointName in pairs(jointNames['left']) do
+        names[i] = jointName
+        positions[i] = sim.getJointPosition(leftArmHandlesTable[jointName])
         -- sim.jointfloatparam_velocity (2012): float parameter (can only be read) : joint velocity. This is a calculated value.
-        velocity = {sim.getObjectFloatParameter(leftArmHandles[1], 2012)},
-        effort = {sim.getJointForce(leftArmHandles[1])}
+        velocities[i] = sim.getObjectFloatParameter(leftArmHandlesTable[jointName], 2012)
+        efforts[i] = sim.getJointForce(leftArmHandlesTable[jointName])
+        i = i+1
+    end
+    for k, jointName in pairs(jointNames['right']) do
+        names[i] = jointName
+        positions[i] = sim.getJointPosition(rightArmHandlesTable[jointName])
+        -- sim.jointfloatparam_velocity (2012): float parameter (can only be read) : joint velocity. This is a calculated value.
+        velocities[i] = sim.getObjectFloatParameter(rightArmHandlesTable[jointName], 2012)
+        efforts[i] = sim.getJointForce(rightArmHandlesTable[jointName])
+        i = i+1
+    end
+    return {
+        header = headerMsg("world"),
+        name = names,
+        position = positions,
+        velocity = velocities,
+        effort = efforts
         
     }
+    -- return {
+    --     header = headerMsg("world"),
+    --     name = {
+    --         "elbow_L"
+    --     },
+    --     position = {sim.getJointPosition(leftArmHandles[1])},
+    --     -- sim.jointfloatparam_velocity (2012): float parameter (can only be read) : joint velocity. This is a calculated value.
+    --     velocity = {sim.getObjectFloatParameter(leftArmHandles[1], 2012)},
+    --     effort = {sim.getJointForce(leftArmHandles[1])}
+        
+    -- }
     
 end
 
 function sysCall_actuation()
-    print(getJointState())
     if rosInterfacePresent then
-        simROS.publish(publisher, getJointState())
+        simROS.publish(jointStatesPublisher, jointStatesMsg())
         -- To send several transforms at once, use simROS.sendTransforms instead
     end
 end
@@ -62,7 +99,7 @@ end
 function sysCall_cleanup()
     -- Following not really needed in a simulation script (i.e. automatically shut down at simulation end):
     if rosInterfacePresent then
-        simROS.shutdownPublisher(publisher)
+        simROS.shutdownPublisher(jointStatesPublisher)
     end
 end
 

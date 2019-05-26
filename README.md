@@ -53,3 +53,4 @@ Unity3D is chosen for the visualization of the robotic simulations (instead of V
 
 - ROS# [https://github.com/siemens/ros-sharp](https://github.com/siemens/ros-sharp)
 - Raven2 [https://github.com/rll/raven_2](https://github.com/rll/raven_2)
+- vrep-raven2 [https://github.com/karadalex/vrep-raven2](https://github.com/karadalex/vrep-raven2)

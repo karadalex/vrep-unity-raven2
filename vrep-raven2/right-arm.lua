@@ -21,47 +21,47 @@ function sysCall_threadmain()
 
     -- Put your main loop here, e.g.:
     --
-    -- while sim.getSimulationState()~=sim.simulation_advancing_abouttostop do
-    --     -- Set-up some of the RML vectors:
-    --     vel = 120
-    --     accel = 40
-    --     jerk = 80
-    --     currentVel = {0,0,0,0,0,0}
-    --     currentAccel = {0,0,0,0,0,0}
-    --     maxVel = {
-    --         vel*math.pi/180, vel*math.pi/180, vel*math.pi/180,
-    --         0.5*vel*math.pi/180, 0.5*vel*math.pi/180, 0.5*vel*math.pi/180
-    --     }
-    --     maxAccel = {
-    --         accel*math.pi/180, accel*math.pi/180, accel*math.pi/180,
-    --         0.5*accel*math.pi/180, 0.5*accel*math.pi/180, 0.5*accel*math.pi/180
-    --     }
-    --     maxJerk = {
-    --         jerk*math.pi/180, jerk*math.pi/180, jerk*math.pi/180,
-    --         jerk*math.pi/180, jerk*math.pi/180, jerk*math.pi/180
-    --     }
-    --     targetVel = {0,0,0,0,0,0}
+    while sim.getSimulationState()~=sim.simulation_advancing_abouttostop do
+        -- Set-up some of the RML vectors:
+        vel = 120
+        accel = 40
+        jerk = 80
+        currentVel = {0,0,0,0,0,0}
+        currentAccel = {0,0,0,0,0,0}
+        maxVel = {
+            vel*math.pi/180, vel*math.pi/180, vel*math.pi/180,
+            0.5*vel*math.pi/180, 0.5*vel*math.pi/180, 0.5*vel*math.pi/180
+        }
+        maxAccel = {
+            accel*math.pi/180, accel*math.pi/180, accel*math.pi/180,
+            0.5*accel*math.pi/180, 0.5*accel*math.pi/180, 0.5*accel*math.pi/180
+        }
+        maxJerk = {
+            jerk*math.pi/180, jerk*math.pi/180, jerk*math.pi/180,
+            jerk*math.pi/180, jerk*math.pi/180, jerk*math.pi/180
+        }
+        targetVel = {0,0,0,0,0,0}
 
-    --     targetPos = {
-    --         45*math.pi/180, -45*math.pi/180, -90*math.pi/180,
-    --         45*math.pi/180, -45*math.pi/180, -90*math.pi/180
-    --     }
-    --     sim.rmlMoveToJointPositions(
-    --         rightArmHandles, -1, 
-    --         currentVel, currentAccel,
-    --         maxVel, maxAccel, maxJerk,
-    --         targetPos, targetVel
-    --     )
+        targetPos = {
+            45*math.pi/180, -45*math.pi/180, -90*math.pi/180,
+            45*math.pi/180, -45*math.pi/180, -90*math.pi/180
+        }
+        sim.rmlMoveToJointPositions(
+            rightArmHandles, -1, 
+            currentVel, currentAccel,
+            maxVel, maxAccel, maxJerk,
+            targetPos, targetVel
+        )
 
-    --     homePosition = {0,0,0,0,0,0}
-    --     sim.rmlMoveToJointPositions(
-    --         rightArmHandles, -1, 
-    --         currentVel, currentAccel,
-    --         maxVel, maxAccel, maxJerk,
-    --         homePosition, targetVel
-    --     )
-    --     sim.switchThread() -- resume in next simulation step
-    -- end
+        homePosition = {0,0,0,0,0,0}
+        sim.rmlMoveToJointPositions(
+            rightArmHandles, -1, 
+            currentVel, currentAccel,
+            maxVel, maxAccel, maxJerk,
+            homePosition, targetVel
+        )
+        sim.switchThread() -- resume in next simulation step
+    end
 end
 
 

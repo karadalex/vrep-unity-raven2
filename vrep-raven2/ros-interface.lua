@@ -67,25 +67,18 @@ function jointStatesMsg()
         efforts[i] = sim.getJointForce(rightArmHandlesTable[jointName])
         i = i+1
     end
-    return {
+    message = {
         header = headerMsg("world"),
         name = names,
         position = positions,
         velocity = velocities,
         effort = efforts
-        
     }
-    -- return {
-    --     header = headerMsg("world"),
-    --     name = {
-    --         "elbow_L"
-    --     },
-    --     position = {sim.getJointPosition(leftArmHandles[1])},
-    --     -- sim.jointfloatparam_velocity (2012): float parameter (can only be read) : joint velocity. This is a calculated value.
-    --     velocity = {sim.getObjectFloatParameter(leftArmHandles[1], 2012)},
-    --     effort = {sim.getJointForce(leftArmHandles[1])}
-        
-    -- }
+    -- Print message for debuuging purposes 
+    -- keep track of message seg numbers, i.e. check how many messages were sent 
+    -- and how many were received
+    print(message)
+    return message
     
 end
 

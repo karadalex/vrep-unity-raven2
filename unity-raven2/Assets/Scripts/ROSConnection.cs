@@ -7,7 +7,6 @@ public class ROSConnection : MonoBehaviour
 {
     RosSocket rosSocket;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +30,11 @@ public class ROSConnection : MonoBehaviour
     private static void SubscriptionHandler(std_msgs.String message)
     {
         Debug.Log((message).data);
+    }
+
+    public RosSocket getRosSocket()
+    {
+        return rosSocket;
     }
 
     void OnDestroy()

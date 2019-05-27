@@ -449,7 +449,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '<color="#323232">Move controls</color>
+  m_Text: 'Move controls
 
     Forward: <color="#ffa500ff">W</color>
 
@@ -1652,7 +1652,7 @@ GameObject:
   - component: {fileID: 341333168}
   - component: {fileID: 341333167}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: HelperUICanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4417,6 +4417,7 @@ GameObject:
   - component: {fileID: 884162743}
   - component: {fileID: 884162746}
   - component: {fileID: 884162745}
+  - component: {fileID: 884162747}
   m_Layer: 5
   m_Name: Status
   m_TagString: Untagged
@@ -4525,6 +4526,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &884162747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 884162741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25516fd5c4855087b91f5de5017c3b32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &886065669
 GameObject:
   m_ObjectHideFlags: 8

@@ -37,6 +37,9 @@ public class StatusUIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        rosIsRunning = GameObject.Find("ROSConnection").GetComponent<ROSConnection>().IsRosSocketAlive();
+
+
         // <color="#323232">Status</color>
         // Unity is <color="#00ff00ff">RUNNING</color>
         // V-REP is <color="#ff0000ff">NOT RUNNING</color>

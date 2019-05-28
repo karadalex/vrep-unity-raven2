@@ -7,6 +7,8 @@ public class ROSConnection : MonoBehaviour
 {
     RosSocket rosSocket;
 
+    private bool rosSocketIsAlive;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +22,8 @@ public class ROSConnection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        rosSocketIsAlive = rosSocket.protocol.IsAlive();
+
         // Publication:
         string publication_id = rosSocket.Advertise<std_msgs.String>("publication_test");
         std_msgs.String message = new std_msgs.String();
@@ -30,6 +34,11 @@ public class ROSConnection : MonoBehaviour
     private static void SubscriptionHandler(std_msgs.String message)
     {
         Debug.Log((message).data);
+    }
+
+    public bool IsRosSocketAlive()
+    {
+        return rosSocketIsAlive;
     }
 
     public RosSocket getRosSocket()

@@ -2,10 +2,14 @@
 using System;
 using RosSharp.RosBridgeClient;
 using std_msgs = RosSharp.RosBridgeClient.Messages.Standard;
+using rosapi = RosSharp.RosBridgeClient.Services.RosApi;
+
 
 public class ROSConnection : MonoBehaviour
 {
     RosSocket rosSocket;
+    string stringParamTempValue;
+    bool boolParamTempValue;
 
     private bool rosSocketIsAlive;
 
@@ -44,6 +48,21 @@ public class ROSConnection : MonoBehaviour
     public RosSocket getRosSocket()
     {
         return rosSocket;
+    }
+
+    public string getStringParam(string paramName)
+    {
+        rosSocket.CallService<rosapi.GetParamRequest, rosapi.GetParamResponse>(
+            "/rosapi/get_param", 
+            handleStringParam, 
+            new rosapi.GetParamRequest(paramName, "default")
+        );
+        return stringParamTempValue;
+    }
+
+    private void handleStringParam(object serviceResponse)
+    {
+        stringParamTempValue = ((rosapi.GetParamResponse)serviceResponse).value;
     }
 
     void OnDestroy()

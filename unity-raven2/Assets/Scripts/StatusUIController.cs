@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using RosSharp.RosBridgeClient;
 
 
 public class StatusUIController : MonoBehaviour
@@ -18,6 +19,9 @@ public class StatusUIController : MonoBehaviour
     private string rosStatus;
     private string rosSocketAdr;
 
+    ROSConnection ros;
+    RosSocket rosSocket;
+
     void Awake()
     {
         statusText = gameObject.GetComponent<Text>();
@@ -26,6 +30,9 @@ public class StatusUIController : MonoBehaviour
         // TODO Check if the following are running
         vrepIsRunning = false;
         rosIsRunning = false;
+
+        ros = GameObject.Find("ROSConnection").GetComponent<ROSConnection>();
+        rosSocket = ros.getRosSocket();
     }
 
     // Start is called before the first frame update
@@ -37,8 +44,9 @@ public class StatusUIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rosIsRunning = GameObject.Find("ROSConnection").GetComponent<ROSConnection>().IsRosSocketAlive();
-
+        rosIsRunning = ros.IsRosSocketAlive();
+        string robotName = ros.getStringParam("/robot/name");
+        Debug.Log(robotName);
 
         // <color="#323232">Status</color>
         // Unity is <color="#00ff00ff">RUNNING</color>

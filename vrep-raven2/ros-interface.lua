@@ -30,9 +30,9 @@ function sysCall_init()
     end
 
     sequenceId = 0
-    -- Prepare the float32 publisher and subscriber (we subscribe to the topic we advertise):
     if rosInterfacePresent then
         jointStatesPublisher = simROS.advertise('/joint_states','sensor_msgs/JointState')
+        simROS.setParamBool("/vrepIsRunning", true)
     end
 end
 
@@ -93,6 +93,7 @@ function sysCall_cleanup()
     -- Following not really needed in a simulation script (i.e. automatically shut down at simulation end):
     if rosInterfacePresent then
         simROS.shutdownPublisher(jointStatesPublisher)
+        simROS.setParamBool("/vrepIsRunning", false)
     end
 end
 

@@ -9,7 +9,6 @@ public class ROSConnection : MonoBehaviour
 {
     RosSocket rosSocket;
     string stringParamTempValue;
-    bool boolParamTempValue;
 
     private bool rosSocketIsAlive;
 

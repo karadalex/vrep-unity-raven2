@@ -45,8 +45,8 @@ public class StatusUIController : MonoBehaviour
     void Update()
     {
         rosIsRunning = ros.IsRosSocketAlive();
-        string robotName = ros.getStringParam("/robot/name");
-        Debug.Log(robotName);
+        vrepIsRunning = Convert.ToBoolean(ros.getStringParam("/vrepIsRunning"));
+        Debug.Log(vrepIsRunning);
 
         // <color="#323232">Status</color>
         // Unity is <color="#00ff00ff">RUNNING</color>
